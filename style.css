@@ -1,6 +1,6 @@
 ﻿*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
-  body { font-family: 'Montserrat', Arial, sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+  html { font-size: 16px; overflow-x: hidden; }
+  body { font-family: 'Montserrat', Arial, sans-serif; scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
   button, input, textarea, select { font-family: inherit; }
   a { text-decoration: none; cursor: pointer; }
   img { max-width: 100%; display: block; }
@@ -194,6 +194,10 @@
   .contact-form input, .contact-form textarea { padding: 13px 15px; border: 1.5px solid #e8e8e8; border-radius: 10px; font-size: 0.95rem; outline: none; width: 100%; transition: border-color 0.2s; font-family: 'Montserrat', Arial, sans-serif; }
   .contact-form input:focus, .contact-form textarea:focus { border-color: #e63946; }
   .contact-form textarea { resize: vertical; min-height: 100px; }
+  .phone-field { position: relative; }
+  .phone-field .phone-prefix { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; font-weight: 700; font-size: 0.95rem; pointer-events: none; }
+  .phone-field input { padding-left: 54px !important; }
+  .phone-field input:focus ~ .phone-prefix { color: #e63946; }
   .contact-form button { padding: 14px; background: #e63946; color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; font-family: 'Montserrat', Arial, sans-serif; }
   .contact-form button:hover { background: #c1121f; }
   .success-box { background: #fff; border-radius: 16px; padding: 36px 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); max-width: 460px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
@@ -204,10 +208,10 @@
   /* Order modal */
   .order-modal { display: none; position: fixed; inset: 0; background: rgba(10,10,20,0.65); backdrop-filter: blur(3px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
   .order-modal.open { display: flex; }
-  .order-modal-box { position: relative; background: #fff; border-radius: 20px; max-width: 440px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 70px rgba(0,0,0,0.45); animation: orderModalIn 0.28s cubic-bezier(0.2,0.9,0.3,1); }
+  .order-modal-box { position: relative; background: #fff; border-radius: 20px; max-width: 440px; width: 100%; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 70px rgba(0,0,0,0.45); animation: orderModalIn 0.28s cubic-bezier(0.2,0.9,0.3,1); }
   @keyframes orderModalIn { from { opacity: 0; transform: translateY(24px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-  .order-modal-header { position: relative; background: linear-gradient(135deg, #1a1a2e 0%, #2b1420 100%); padding: 30px 28px 26px; border-radius: 20px 20px 0 0; overflow: hidden; }
+  .order-modal-header { position: relative; flex: 0 0 auto; background: linear-gradient(135deg, #1a1a2e 0%, #2b1420 100%); padding: 30px 28px 26px; overflow: hidden; }
   .order-modal-header::after { content: ""; position: absolute; top: -40%; right: -20%; width: 220px; height: 220px; background: radial-gradient(circle, rgba(230,57,70,0.35), transparent 70%); pointer-events: none; }
   .order-modal-tag { display: inline-block; background: rgba(230,57,70,0.18); color: #ff8a92; border: 1px solid rgba(230,57,70,0.4); font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 50px; margin-bottom: 14px; }
   .order-modal-header h2 { position: relative; font-size: 1.35rem; font-weight: 800; margin: 0 0 8px; letter-spacing: -0.5px; color: #fff; }
@@ -216,7 +220,11 @@
   .order-modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: rgba(255,255,255,0.12); border-radius: 50%; font-size: 1rem; cursor: pointer; color: #fff; z-index: 1; transition: background 0.2s; }
   .order-modal-close:hover { background: rgba(255,255,255,0.24); }
 
-  .order-modal-body { padding: 26px 28px 28px; }
+  .order-modal-body { flex: 1 1 auto; overflow-y: auto; padding: 26px 28px 28px; scrollbar-width: thin; scrollbar-color: #e63946 transparent; }
+  .order-modal-body::-webkit-scrollbar { width: 7px; }
+  .order-modal-body::-webkit-scrollbar-track { background: transparent; }
+  .order-modal-body::-webkit-scrollbar-thumb { background: #e6a5aa; border-radius: 10px; }
+  .order-modal-body::-webkit-scrollbar-thumb:hover { background: #e63946; }
   .order-services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 22px; }
   .order-service-chip { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #f4f4f7; color: #444; border-radius: 12px; font-size: 0.82rem; font-weight: 600; line-height: 1.25; cursor: pointer; border: 1.5px solid transparent; transition: background 0.15s, color 0.15s, border-color 0.15s; user-select: none; }
   .order-service-chip::before { content: ""; flex: 0 0 16px; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #d3d3d9; background: #fff; transition: background 0.15s, border-color 0.15s; }
@@ -230,6 +238,9 @@
   .order-input-icon svg { width: 100%; height: 100%; }
   .order-input-group-textarea { align-items: flex-start; }
   .order-input-group-textarea .order-input-icon { top: 15px; }
+  .order-phone-prefix { position: absolute; left: 40px; color: #666; font-weight: 700; font-size: 0.88rem; pointer-events: none; }
+  .order-phone-group input { padding-left: 82px !important; }
+  .order-phone-group input:focus ~ .order-phone-prefix { color: #e63946; }
   .order-input-group input:focus ~ .order-input-icon,
   .order-input-group textarea:focus ~ .order-input-icon { color: #e63946; }
   .order-modal-body input, .order-modal-body textarea { padding: 13px 16px 13px 42px; border: none; background: #f4f4f7; border-radius: 50px; font-size: 0.92rem; outline: none; width: 100%; transition: background 0.2s, box-shadow 0.2s; font-family: 'Montserrat', Arial, sans-serif; }
@@ -238,7 +249,23 @@
   .order-modal-body form button { padding: 14px; margin-top: 4px; background: linear-gradient(135deg, #e63946, #ff5a64); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(230,57,70,0.35); transition: transform 0.15s, box-shadow 0.15s; font-family: 'Montserrat', Arial, sans-serif; }
   .order-modal-body form button:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(230,57,70,0.45); }
   .order-modal-body form.hide { display: none; }
-  .order-modal-body .success-box { max-width: none; padding: 8px 0 0; box-shadow: none; }
+  .success-modal-box { position: relative; background: #fff; border-radius: 20px; padding: 40px 30px; max-width: 400px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 25px 70px rgba(0,0,0,0.45); animation: orderModalIn 0.28s cubic-bezier(0.2,0.9,0.3,1); }
+
+  .success-check { position: relative; width: 84px; height: 84px; margin: 4px 0 2px; }
+  .success-check::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(34,197,94,0.25), transparent 70%); transform: scale(0); animation: successGlow 0.6s ease-out 0.15s forwards; }
+  .success-check svg { position: relative; width: 100%; height: 100%; }
+  .success-check-circle { stroke: #22c55e; stroke-width: 3; stroke-dasharray: 146; stroke-dashoffset: 146; animation: successCircle 0.5s ease forwards; }
+  .success-check-mark { stroke: #22c55e; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 32; stroke-dashoffset: 32; animation: successMark 0.35s 0.45s ease forwards; }
+  @keyframes successCircle { to { stroke-dashoffset: 0; } }
+  @keyframes successMark { to { stroke-dashoffset: 0; } }
+  @keyframes successGlow { to { transform: scale(1.3); opacity: 0; } }
+
+  .success-modal-box h3 { font-size: 1.15rem; font-weight: 800; color: #111; letter-spacing: -0.3px; }
+  .success-modal-box > p { font-size: 0.9rem; color: #777; margin-top: -6px; }
+  .success-services { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .success-tag { background: #fff0f1; color: #c1121f; border: 1px solid #f7c9cc; font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 50px; }
+  .order-success-btn { width: 100%; padding: 14px; margin-top: 6px; background: linear-gradient(135deg, #e63946, #ff5a64); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(230,57,70,0.35); transition: transform 0.15s, box-shadow 0.15s; font-family: 'Montserrat', Arial, sans-serif; }
+  .order-success-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(230,57,70,0.45); }
 
   /* FOOTER */
   footer { background: #111; padding: 48px 0 28px; color: #fff; }
