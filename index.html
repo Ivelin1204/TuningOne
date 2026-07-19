@@ -603,11 +603,117 @@
     alert('Абонирахте се успешно!');
     e.target.reset();
   }
+
+  // AI chat
+  // TODO: after deploying server/ to Render, replace this with your backend URL (see server/README.md)
+  var AI_BACKEND_URL = 'https://YOUR-RENDER-APP.onrender.com/api/chat';
+  var aiChatHistory = [];
+  var aiChatOpen = false;
+
+  function toggleAiChat() {
+    aiChatOpen = !aiChatOpen;
+    document.getElementById('aiChatPanel').classList.toggle('open', aiChatOpen);
+    document.getElementById('aiChatToggle').classList.toggle('active', aiChatOpen);
+    if (aiChatOpen) document.getElementById('aiChatInput').focus();
+  }
+
+  function appendAiMessage(text, who) {
+    var wrap = document.getElementById('aiChatMessages');
+    var msg = document.createElement('div');
+    msg.className = 'ai-msg ai-msg-' + who;
+    msg.textContent = text;
+    wrap.appendChild(msg);
+    wrap.scrollTop = wrap.scrollHeight;
+    return msg;
+  }
+
+  function appendAiTyping() {
+    var wrap = document.getElementById('aiChatMessages');
+    var msg = document.createElement('div');
+    msg.className = 'ai-msg ai-msg-bot ai-msg-typing';
+    msg.id = 'aiTypingIndicator';
+    msg.innerHTML = '<span></span><span></span><span></span>';
+    wrap.appendChild(msg);
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  function removeAiTyping() {
+    var el = document.getElementById('aiTypingIndicator');
+    if (el) el.remove();
+  }
+
+  function sendAiChatMessage(e) {
+    e.preventDefault();
+    var input = document.getElementById('aiChatInput');
+    var text = input.value.trim();
+    if (!text) return;
+    appendAiMessage(text, 'user');
+    var historySoFar = aiChatHistory.slice();
+    aiChatHistory.push({ role: 'user', content: text });
+    input.value = '';
+    appendAiTyping();
+
+    fetch(AI_BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, history: historySoFar }),
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) throw new Error(data.error || 'Грешка');
+          return data;
+        });
+      })
+      .then(function (data) {
+        removeAiTyping();
+        appendAiMessage(data.reply, 'bot');
+        aiChatHistory.push({ role: 'assistant', content: data.reply });
+        if (data.suggestedService) {
+          var wrap = document.getElementById('aiChatMessages');
+          var btn = document.createElement('button');
+          btn.className = 'ai-msg-order-btn';
+          btn.textContent = 'Поръчай: ' + data.suggestedService + ' →';
+          btn.onclick = function () {
+            toggleAiChat();
+            openOrderModal(data.suggestedService);
+          };
+          wrap.appendChild(btn);
+          wrap.scrollTop = wrap.scrollHeight;
+        }
+      })
+      .catch(function () {
+        removeAiTyping();
+        appendAiMessage('Възникна проблем при връзката. Опитайте отново.', 'bot');
+      });
+  }
 </script>
 
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Нагоре">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
+
+<button class="ai-chat-toggle" id="aiChatToggle" onclick="toggleAiChat()" aria-label="AI асистент">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</button>
+
+<div class="ai-chat-panel" id="aiChatPanel">
+  <div class="ai-chat-header">
+    <div>
+      <span class="ai-chat-tag">✨ AI Асистент</span>
+      <h3>Как да ви помогна?</h3>
+    </div>
+    <button class="ai-chat-close" onclick="toggleAiChat()" aria-label="Затвори">✕</button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="ai-msg ai-msg-bot">Здравейте! Мога да отговоря на въпроси за услугите на TuningOne или да ви помогна да изберете подходяща. С какво да помогна?</div>
+  </div>
+  <form class="ai-chat-form" id="aiChatForm" onsubmit="sendAiChatMessage(event)">
+    <input type="text" id="aiChatInput" placeholder="Напишете съобщение..." autocomplete="off" required>
+    <button type="submit" aria-label="Изпрати">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+</div>
 
 <div class="order-modal" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
   <div class="order-modal-box">
