@@ -24,8 +24,7 @@ Server runs on `http://localhost:3000`.
    - `ANTHROPIC_API_KEY` — your key from https://platform.claude.com/settings/keys
    - `ALLOWED_ORIGIN` — your site's URL once it's live (e.g. `https://ivelin1204.github.io`)
 4. Deploy. Render gives you a URL like `https://tuningone-ai.onrender.com`.
-5. Open `index.html` and update the `AI_BACKEND_URL` constant near the top of the
-   `<script>` block to that URL.
+5. Open `js/main.js` and update the `AI_BACKEND_URL` constant to that URL.
 
 Render's free tier spins the service down when idle — the first chat message after a
 period of inactivity can take ~30-60s to wake it up.
