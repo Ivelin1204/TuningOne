@@ -134,7 +134,7 @@ function toggleCard(e, idx) {
 }
 
 // Gallery
-var galleryImages = ["assets/images/hero/hero-audi-rs5.jpg","assets/images/gallery/gallery-01.jpg","assets/images/services/ppf-protection.jpg","assets/images/services/detail-wrapping.jpg","assets/images/services/headlight-film.jpg"];
+var galleryImages = ["assets/images/hero/hero-audi-rs5-1200.jpg","assets/images/gallery/gallery-01.jpg","assets/images/services/ppf-protection.jpg","assets/images/services/detail-wrapping.jpg","assets/images/services/headlight-film.jpg"];
 var all = [...galleryImages, ...galleryImages, ...galleryImages, ...galleryImages];
 var track = document.getElementById('galleryTrack');
 all.forEach(function(src) {
