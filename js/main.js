@@ -80,7 +80,7 @@ window.addEventListener('scroll', function() {
 });
 
 // Header scroll + active nav
-window.addEventListener('scroll', function() {
+function updateHeader() {
   document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
   var sections = ['hero','about','services','testimonials','contact'];
   var current = 'hero';
@@ -91,17 +91,22 @@ window.addEventListener('scroll', function() {
   document.querySelectorAll('nav a').forEach(function(a) {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
-});
+}
+window.addEventListener('scroll', updateHeader, { passive: true });
+updateHeader();
 
 // Mobile menu
 function toggleMenu() {
   var m = document.getElementById('mobileMenu');
   var btn = document.querySelector('.hamburger');
-  btn.textContent = m.classList.toggle('open') ? '✕' : '☰';
+  var open = m.classList.toggle('open');
+  btn.textContent = open ? '✕' : '☰';
+  document.getElementById('header').classList.toggle('menu-open', open);
 }
 function closeMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
   document.querySelector('.hamburger').textContent = '☰';
+  document.getElementById('header').classList.remove('menu-open');
 }
 
 // ── Card expand/collapse ──

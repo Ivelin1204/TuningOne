@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-<link rel="stylesheet" href="css/style.css?v=da3f1699">
+<link rel="stylesheet" href="css/style.css?v=63139998">
 </head>
 <body>
 
@@ -34,6 +34,7 @@
       <a href="#testimonials">Отзиви</a>
       <a href="#contact">Контакти</a>
     </nav>
+    <button type="button" class="nav-cta" onclick="openOrderModal('')">Поискай оферта</button>
     <button class="hamburger" onclick="toggleMenu()" aria-label="Меню">☰</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
@@ -42,6 +43,7 @@
     <a href="#services" onclick="closeMenu()">Услуги</a>
     <a href="#testimonials" onclick="closeMenu()">Отзиви</a>
     <a href="#contact" onclick="closeMenu()">Контакти</a>
+    <button type="button" class="mobile-cta" onclick="closeMenu(); openOrderModal('')">Поискай оферта</button>
   </div>
 </header>
 
@@ -378,7 +380,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=da3f1699"></script>
+<script src="js/main.js?v=63139998"></script>
 
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Нагоре">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

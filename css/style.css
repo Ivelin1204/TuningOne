@@ -674,3 +674,50 @@ body { color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: o
 }
 #hero { min-height: calc(100vh - 80px); min-height: calc(100svh - 80px); }
 @media (max-width: 600px) { #hero { min-height: calc(100svh - 64px); } }
+
+/* ==========================================================
+   Header — transparent over hero, dark glass on scroll
+   ========================================================== */
+main { padding-top: 0; }
+#hero { min-height: 100vh; min-height: 100svh; }
+header {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.35s, border-color 0.35s, box-shadow 0.35s, height 0.3s, backdrop-filter 0.35s;
+}
+header.scrolled, header.menu-open {
+  background: rgba(16,16,28,0.92);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+.header-inner { padding: 0 56px; }
+nav { gap: 2px; margin-left: auto; }
+nav a { color: rgba(255,255,255,0.8); }
+nav a::before { display: none; }
+nav a::after { bottom: 2px; left: 50%; right: auto; width: 5px; height: 5px; border-radius: 50%; transform: translateX(-50%) scale(0); transition: transform 0.25s var(--ease); }
+nav a:hover::after, nav a.active::after { transform: translateX(-50%) scale(1); }
+.nav-cta {
+  margin-left: 12px; padding: 11px 22px; border: none; border-radius: 999px;
+  background: var(--red); color: #fff; font: 700 14px 'Montserrat', Arial, sans-serif; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(230,57,70,0.35);
+  transition: background 0.2s, transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(230,57,70,0.45); }
+.nav-cta:active { transform: scale(0.97); }
+.mobile-menu { background: #10101c; border-bottom-color: rgba(255,255,255,0.08); }
+.mobile-cta { display: block; margin: 16px 24px 20px; padding: 14px; border: none; border-radius: 999px; background: var(--red); color: #fff; font: 700 15px 'Montserrat', Arial, sans-serif; cursor: pointer; }
+.hero-content { padding-top: 80px; }
+
+@media (max-width: 900px) {
+  .header-inner { padding: 0 24px; }
+  nav, .nav-cta { display: none; }
+  .hamburger { display: block; }
+}
+@media (max-width: 600px) {
+  main { padding-top: 0; }
+  header.scrolled { height: 64px; }
+  .header-inner { padding: 0 16px; }
+  #hero { min-height: 100svh; }
+}
