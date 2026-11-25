@@ -318,3 +318,7 @@ function sendAiChatMessage(e) {
       appendAiMessage('Възникна проблем при връзката. Опитайте отново.', 'bot');
     });
 }
+
+// Footer year
+var yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
