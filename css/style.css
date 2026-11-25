@@ -721,3 +721,12 @@ nav a:hover::after, nav a.active::after { transform: translateX(-50%) scale(1); 
   .header-inner { padding: 0 16px; }
   #hero { min-height: 100svh; }
 }
+
+/* Logo — transparent car emblem */
+.logo-wrap img { height: 34px; width: auto;  transition: transform 0.3s var(--ease); }
+.logo-wrap:hover img { transform: translateX(3px); }
+.logo-wrap img:hover { transform: none; }
+.logo-wrap { gap: 10px; }
+.footer-logo img { height: 28px; width: auto; }
+@media (max-width: 600px) { .logo-wrap img { height: 26px; } }
+.footer-logo span em { color: var(--red); font-style: normal; }
